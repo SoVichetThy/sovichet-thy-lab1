@@ -5,8 +5,17 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --exit",
+    "test:coverage": "nyc mocha --exit",
     "lint": "eslint ."
   },
+  "nyc": {
+    "reporter": ["text-summary", "lcov"],
+    "report-dir": "coverage",
+    "all": true,
+    "include": ["app.js"],
+    "exclude": ["test/**/*.js"]
+},
+
   "dependencies": {
     "chai": "^4.5.0",
     "express": "^5.1.0"
@@ -14,6 +23,7 @@
   "devDependencies": {
     "eslint": "^8.57.1",
     "mocha": "^11.7.4",
+    "nyc": "^17.1.0",
     "supertest": "^7.1.4"
   }
 }
