@@ -1,4 +1,4 @@
-name: Node.js CI (npm)
+name: Node.js CI/CD (npm)
 
 on:
   push:
@@ -9,7 +9,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x, 18.x, 20.x]
@@ -38,3 +37,14 @@ jobs:
         with:
           name: coverage-report-${{ matrix.node-version }}
           path: coverage/**
+
+  deploy:
+    needs: build-and-test    # only run if all tests pass
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v1
+        with:
+          service_id: ${{ secrets.RENDER_SERVICE_ID }}
+          api_key: ${{ secrets.RENDER_API_KEY }}
